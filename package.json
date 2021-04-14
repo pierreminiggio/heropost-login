@@ -1,0 +1,23 @@
+{
+  "name": "@pierreminiggio/heropost-login",
+  "version": "1.0.0",
+  "description": "Heropost Login",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pierreminiggio/heropost-login.git"
+  },
+  "author": "Pierre MINIGGIO",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pierreminiggio/heropost-login/issues"
+  },
+  "homepage": "https://github.com/pierreminiggio/heropost-login#readme",
+  "devDependencies": {
+    "puppeteer": "^8.0.0"
+  }
+}
