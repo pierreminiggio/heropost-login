@@ -1,24 +1,39 @@
 import puppeteer from 'puppeteer'
 
 /**
+ * @typedef {Object} OtherPuppeteerOptions
+ *
+ * @property {import('puppeteer').Product|undefined} product
+ * @property {Record<string, unknown>|undefined} extraPrefsFirefox
+ */
+
+/**
  * @param {string} login
  * @param {string} password
- * 
- * @returns {Promise}
+ * @param {import('puppeteer').LaunchOptions & import('puppeteer').BrowserLaunchArgumentOptions & import('puppeteer').BrowserConnectOptions & OtherPuppeteerOptions} overrideLaunchOptions
+ *
+ * @returns {Promise<import('puppeteer').Page|undefined>}
  */
-export default function (login, password) {
+export default function (login, password, overrideLaunchOptions = {}) {
 
     return new Promise(async (resolve, reject) => {
         
         try {
-            const browser = await puppeteer.launch({
-                headless: false,
+            const launchOptions = {
+                headless: true,
+                ignoreHTTPSErrors: true,
                 args: [
                     '--disable-notifications',
                     '--no-sandbox',
                     '--window-size=1600,900'
                 ]
-            })
+            }
+
+            for (const overrideLaunchOptionKey in overrideLaunchOptions) {
+                launchOptions[overrideLaunchOptionKey] = overrideLaunchOptions[overrideLaunchOptionKey]
+            }
+
+            const browser = await puppeteer.launch(launchOptions)
 
             const pages = await browser.pages()
 
@@ -37,7 +52,6 @@ export default function (login, password) {
                 eviceScaleFactor: 1
             })
 
-            await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36 OPR/114.0.0.0')
             await page.goto('https://login.heropost.io/Account/Login')
 
             const loginInputSelector = '#Email'
@@ -80,11 +94,7 @@ export default function (login, password) {
                 throw Error(errorText)
             }
 
-            await page.waitForTimeout(90000)
-            await page.waitForTimeout(90000)
-            await page.waitForTimeout(90000)
-
-            resolve()
+            resolve(page)
         } catch (e) {
             reject(e)
         }

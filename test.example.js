@@ -7,5 +7,8 @@ import login from './index.js'
     console.log(await login(
         'Heropost login or email',
         'Heropost password',
+        {
+            headless: false
+        }
     ))
 })()
