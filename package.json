@@ -18,6 +18,6 @@
   },
   "homepage": "https://github.com/pierreminiggio/heropost-login#readme",
   "dependencies": {
-    "puppeteer": "^10.4.0"
+    "puppeteer": "^19.11.1"
   }
 }
